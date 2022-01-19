@@ -4,7 +4,7 @@ let db: Connection;
 
 // In a regular app the connection string would NOT be part of the codebase...
 const connectionString =
-	'mongodb://test_admin:test_password@localhost:27017/?authSource=admin&readPreference=primary&appname=MongoDB%20Compass&ssl=false';
+	'mongodb://test_admin:test_password@mongo:27017/?authSource=admin&readPreference=primary&ssl=false';
 
 export const initialiseDbConnection = async () => {
 	await mongoose.connect(connectionString, {
