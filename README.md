@@ -11,3 +11,7 @@ This is a simple url shortener application built by Matt Webber. It uses React f
 
 # Testing
 To run the testing you need to navigate to either the `app` directory for frontend tests, or the `server` directory for backend tests. Once there, run an `npm install` and then run `npm run test`. This will trigger the Jest tests.
+
+# Todo
+
+1. Create an endpoint that fetches previously shortened urls rather than just update them in state.

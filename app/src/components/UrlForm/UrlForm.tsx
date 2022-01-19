@@ -5,6 +5,10 @@ type ShortUrlRequest = {
 	url: string;
 };
 
+type ShortUrlResponse = {
+	newUrl: string;
+};
+
 interface Props {}
 
 const UrlForm: FC<Props> = () => {
@@ -12,6 +16,7 @@ const UrlForm: FC<Props> = () => {
 	const [url, setUrl] = useState<string>('');
 	const [isUrlValid, setIsUrlValid] = useState(false);
 	const [shortUrl, setShortUrl] = useState<string | null>(null);
+	const [previousUrls, setPreviousUrls] = useState<string[]>([]);
 
 	const onUrlChange = useCallback((e: React.FormEvent<HTMLInputElement>) => {
 		setUrl(e.currentTarget.value);
@@ -53,8 +58,9 @@ const UrlForm: FC<Props> = () => {
 			body: JSON.stringify(data),
 		});
 
-		const { newUrl } = await response.json();
+		const { newUrl } = (await response.json()) as ShortUrlResponse;
 		setShortUrl(newUrl);
+		setPreviousUrls((oldState) => [...oldState, newUrl]);
 	};
 
 	return (
@@ -67,10 +73,20 @@ const UrlForm: FC<Props> = () => {
 					<input type="submit" value="Submit" />
 					{submitPressed && !isUrlValid && <span className="Form-error">The URL is invalid.</span>}
 					{submitPressed && shortUrl && (
-						<span className="Form-success">Your shortened url is: {shortUrl}</span>
+						<span className="Form-success">Your new shortened url is: {shortUrl}</span>
 					)}
 				</fieldset>
 			</form>
+			{previousUrls.length > 0 && (
+				<div className="Previous-urls">
+					<span>Previously shortened urls:</span>
+					<ul>
+						{previousUrls.map((url) => (
+							<li>{url}</li>
+						))}
+					</ul>
+				</div>
+			)}
 		</div>
 	);
 };

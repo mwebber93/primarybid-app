@@ -1,5 +1,6 @@
 .Form-wrapper {
 	display: flex;
+	flex-direction: column;
 	align-items: flex-start;
 	justify-content: flex-start;
 	width: 50%;
@@ -52,4 +53,16 @@
 	padding: 5px;
 	color: green;
 	width: 100%;
+}
+
+.Previous-urls {
+	width: 100%;
+}
+
+.Previous-urls span {
+	font-weight: bold;
+}
+
+.Previous-urls ul {
+	list-style-type: none;
 }
