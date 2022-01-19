@@ -1,0 +1,30 @@
+version: '3'
+
+services:
+    mongo:
+        image: mongo
+        container_name: mongo
+        restart: always
+        environment:
+            MONGO_INITDB_ROOT_USERNAME: test_admin
+            MONGO_INITDB_ROOT_PASSWORD: test_password
+        volumes:
+            - 'mongo:/data/db'
+        ports:
+            - '27017:27017'
+
+    app:
+        container_name: app
+        build: ./app
+        ports:
+            - '3000:3000'
+        command: npm start
+
+    server:
+        container_name: server
+        build: ./server
+        ports:
+            - '3001:3001'
+        command: npm start
+volumes:
+    mongo:

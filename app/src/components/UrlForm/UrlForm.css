@@ -1,0 +1,55 @@
+.Form-wrapper {
+	display: flex;
+	align-items: flex-start;
+	justify-content: flex-start;
+	width: 50%;
+	color: #fff;
+}
+
+.Form-wrapper form {
+	width: 100%;
+	text-align: left;
+}
+
+.Form-wrapper fieldset {
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	padding: 20px 0px;
+	border: none;
+}
+
+.Form-wrapper label {
+	display: block;
+	margin: 0;
+	padding: 0px 0px 5px 0px;
+	font-weight: bold;
+	font-size: 16px;
+}
+
+.Form-wrapper input[type='text'] {
+	padding: 8px;
+	font-size: 16px;
+}
+
+.Form-wrapper input[type='submit'] {
+	margin-top: 5px;
+	padding: 8px;
+	font-size: 16px;
+}
+
+.Form-error {
+	font-weight: bold;
+	text-align: center;
+	padding: 5px;
+	color: red;
+	width: 100%;
+}
+
+.Form-success {
+	font-weight: bold;
+	text-align: center;
+	padding: 5px;
+	color: green;
+	width: 100%;
+}
