@@ -1,4 +1,4 @@
-import React, { FC, useCallback, useState } from 'react';
+import React, { FC, useCallback, useEffect, useState } from 'react';
 import './UrlForm.css';
 
 type ShortUrlRequest = {
@@ -9,6 +9,14 @@ type ShortUrlResponse = {
 	newUrl: string;
 };
 
+type ListShortUrlsResponse = {
+	urls: {
+		_id: string;
+		originalUrl: string;
+		shortUrl: string;
+	}[];
+};
+
 interface Props {}
 
 const UrlForm: FC<Props> = () => {
@@ -17,6 +25,27 @@ const UrlForm: FC<Props> = () => {
 	const [isUrlValid, setIsUrlValid] = useState(false);
 	const [shortUrl, setShortUrl] = useState<string | null>(null);
 	const [previousUrls, setPreviousUrls] = useState<string[]>([]);
+
+	const getLatestShortUrls = useCallback(async (): Promise<void> => {
+		const response = await fetch('http://localhost:3001/shortUrls', {
+			method: 'GET',
+			headers: {
+				Accept: 'application/json',
+				'Content-Type': 'application/json',
+			},
+		});
+
+		const { urls } = (await response.json()) as ListShortUrlsResponse;
+		setPreviousUrls(urls.map((url) => `https://pbid.io/${url.shortUrl}`));
+	}, []);
+
+	const initialisePreviousUrls = useCallback(async () => {
+		await getLatestShortUrls();
+	}, [getLatestShortUrls]);
+
+	useEffect(() => {
+		initialisePreviousUrls();
+	}, [initialisePreviousUrls]);
 
 	const onUrlChange = useCallback((e: React.FormEvent<HTMLInputElement>) => {
 		setUrl(e.currentTarget.value);
@@ -31,6 +60,24 @@ const UrlForm: FC<Props> = () => {
 		return isValid;
 	}, []);
 
+	const sendShortUrlRequest = useCallback(
+		async (data: ShortUrlRequest): Promise<void> => {
+			const response = await fetch('http://localhost:3001/shortUrl', {
+				method: 'POST',
+				headers: {
+					Accept: 'application/json',
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify(data),
+			});
+
+			const { newUrl } = (await response.json()) as ShortUrlResponse;
+			setShortUrl(newUrl);
+			await getLatestShortUrls();
+		},
+		[getLatestShortUrls]
+	);
+
 	const handleSubmit = useCallback(
 		async (event: React.FormEvent) => {
 			event.preventDefault();
@@ -40,28 +87,14 @@ const UrlForm: FC<Props> = () => {
 
 			const isValid = validateUrl(url);
 			if (isValid) {
+				setIsUrlValid(true);
 				await sendShortUrlRequest({
 					url,
 				});
 			}
 		},
-		[submitPressed, url, validateUrl]
+		[sendShortUrlRequest, submitPressed, url, validateUrl]
 	);
-
-	const sendShortUrlRequest = async (data: ShortUrlRequest): Promise<void> => {
-		const response = await fetch('http://localhost:3001/shortUrl', {
-			method: 'POST',
-			headers: {
-				Accept: 'application/json',
-				'Content-Type': 'application/json',
-			},
-			body: JSON.stringify(data),
-		});
-
-		const { newUrl } = (await response.json()) as ShortUrlResponse;
-		setShortUrl(newUrl);
-		setPreviousUrls((oldState) => [...oldState, newUrl]);
-	};
 
 	return (
 		<div className="Form-wrapper">

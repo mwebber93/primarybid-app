@@ -14,4 +14,5 @@ To run the testing you need to navigate to either the `app` directory for fronte
 
 # Todo
 
-1. Link the shortUrls GET endpoint to the frontend.
+1. Improve frontend tests.
+2. Refactor frontend for tidy up.

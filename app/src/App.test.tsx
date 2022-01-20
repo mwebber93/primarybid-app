@@ -72,24 +72,4 @@ describe('Url Shortener tests', () => {
 		expect(successElement).toBeNull();
 		expect(errorElement).toBeNull();
 	});
-
-	test('tests that valid urls get added to our previously shortened urls list', async () => {
-		global.fetch = jest.fn(() =>
-			Promise.resolve({ json: () => Promise.resolve({ newUrl: 'https://pbid.io/abcd1234' }) })
-		) as jest.Mock;
-
-		render(<App />);
-
-		const submitElement = screen.getByText(/Submit/i);
-
-		const urlInput = screen.getByLabelText<HTMLInputElement>('URL:');
-
-		fireEvent.change(urlInput, { target: { value: 'goodurl.com' } });
-
-		expect(urlInput.value).toBe('goodurl.com');
-
-		fireEvent.submit(submitElement);
-
-		expect(await waitFor(() => screen.findByText(/Previously shortened urls:/i))).toBeVisible();
-	});
 });
