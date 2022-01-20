@@ -81,8 +81,8 @@ const UrlForm: FC<Props> = () => {
 				<div className="Previous-urls">
 					<span>Previously shortened urls:</span>
 					<ul>
-						{previousUrls.map((url) => (
-							<li>{url}</li>
+						{previousUrls.map((url, index) => (
+							<li key={index}>{url}</li>
 						))}
 					</ul>
 				</div>
