@@ -35,3 +35,9 @@ export const createShortUrl = async (originalUrl: string, shortUrl: string) => {
 
 	await urlDetail.save();
 };
+
+export const listShortUrls = async () => {
+	const Model = mongoose.model('UrlDetail', urlSchema);
+	const results = await Model.find({}).sort({ _id: -1 }).limit(10);
+	return results;
+};

@@ -1,7 +1,7 @@
 import { Validator } from 'jsonschema';
 import { generate } from 'randomstring';
 import { Request, Response } from 'express';
-import { checkShortUrlExists, createShortUrl } from '../../database';
+import { checkShortUrlExists, createShortUrl } from '../../../database';
 
 const validator = new Validator();
 

@@ -1,6 +1,6 @@
 import shortUrlController from './ShortUrlController';
 import httpMocks from 'node-mocks-http';
-import * as database from '../../database';
+import * as database from '../../../database';
 
 describe('Short Url Controller tests', () => {
 	test('Test that we are returned a 200 status code when the url is successfully created', () => {
