@@ -91,6 +91,8 @@ const UrlForm: FC<Props> = () => {
 				await sendShortUrlRequest({
 					url,
 				});
+			} else {
+				setShortUrl('');
 			}
 		},
 		[sendShortUrlRequest, submitPressed, url, validateUrl]
