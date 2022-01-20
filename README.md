@@ -14,4 +14,4 @@ To run the testing you need to navigate to either the `app` directory for fronte
 
 # Todo
 
-1. Create an endpoint that fetches previously shortened urls rather than just update them in state.
+1. Link the shortUrls GET endpoint to the frontend.
